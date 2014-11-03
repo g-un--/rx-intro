@@ -36,9 +36,9 @@ namespace RxExcelLikeApp
  
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            AttachTextBoxToSignal(textCell1, cell1Signal);
-            AttachTextBoxToSignal(textCell2, cell2Signal);
-            AttachTextBoxToSignal(textCell3, cell3Signal);
+            AttachTextBoxToInputSignal(textCell1, cell1Signal);
+            AttachTextBoxToInputSignal(textCell2, cell2Signal);
+            AttachOutputSignalToTextBox(textCell3, cell3Signal);
 
             var sumModel = new SumModel(cell1Signal, cell2Signal);
             sumModel
@@ -47,9 +47,13 @@ namespace RxExcelLikeApp
                 .Subscribe(cell3Signal);
         }
 
-        void AttachTextBoxToSignal(TextBox textBox, BehaviorSubject<string> signal)
+        void AttachTextBoxToInputSignal(TextBox textBox, BehaviorSubject<string> signal)
         {
             textBox.TextChanged += (sender, textChanged) => { signal.OnNext(textBox.Text.Trim()); };
+        }
+
+        void AttachOutputSignalToTextBox(TextBox textBox, BehaviorSubject<string> signal)
+        {
             signal.Subscribe(value => textBox.Text = value);
         }
     }

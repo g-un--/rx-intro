@@ -23,12 +23,10 @@ namespace RxExcelLikeApp
         public IObservable<int> Compute()
         {
             var leftValues = left
-                    .Throttle(TimeSpan.FromSeconds(1))
                     .Where(leftValue => leftValue.Count() > 0 && leftValue.All(c => char.IsDigit(c)))
                     .Select(leftValue => int.Parse(leftValue));
 
             var rightValues = right
-                    .Throttle(TimeSpan.FromSeconds(1))
                     .Where(rightValue => rightValue.Count() > 0 && rightValue.All(c => char.IsDigit(c)))
                     .Select(rightValue => int.Parse(rightValue));
             return 
